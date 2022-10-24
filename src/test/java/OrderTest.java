@@ -18,7 +18,7 @@ public class OrderTest {
 
 
     @BeforeAll
-        static void setUpAll() {
+    static void setUpAll() {
         WebDriverManager.chromedriver().setup();
     }
 
@@ -34,7 +34,7 @@ public class OrderTest {
         options.addArguments("--no-sandbox");
         driver = new ChromeDriver(options);
         driver.get("http://localhost:9999");
-        }
+    }
 
 
     @AfterEach
@@ -56,9 +56,8 @@ public class OrderTest {
 
     @Test
     void shouldTestWarnIfIncorrectTel() {
-        List<WebElement> elements = driver.findElements(By.className("input__control"));
-        elements.get(0).sendKeys("Карл Ив");
-        elements.get(1).sendKeys("+798765");
+        driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Иван Петров");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+7987650");
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.className("button")).click();
         driver.findElements(By.className("input__sub"));
@@ -68,8 +67,7 @@ public class OrderTest {
 
     @Test
     void shouldTestWarnIfNoName() {
-        List<WebElement> elements = driver.findElements(By.className("input__control"));
-        elements.get(1).sendKeys("+79876547710");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79876547710");
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.className("button")).click();
         driver.findElements(By.className("input__sub"));
@@ -79,9 +77,8 @@ public class OrderTest {
 
     @Test
     void shouldTestWarnIfIncorrectName() {
-        List<WebElement> elements = driver.findElements(By.className("input__control"));
-        elements.get(0).sendKeys("Karl");
-        elements.get(1).sendKeys("+79876543210");
+        driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Karl");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79876547710");
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.className("button")).click();
         driver.findElements(By.className("input__sub"));
@@ -91,25 +88,25 @@ public class OrderTest {
 
     @Test
     void shouldTestWarnIfNoTel() {
-        List<WebElement> elements = driver.findElements(By.className("input__control"));
-        elements.get(0).sendKeys("Карл Иванов");
+        driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Карл Иванов");
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.className("button")).click();
         driver.findElements(By.className("input__sub"));
         String text = driver.findElement(By.cssSelector("[data-test-id=phone].input_invalid .input__sub")).getText();
         assertEquals("Поле обязательно для заполнения", text.trim());
     }
-        @Test
-        public void shouldInactiveCheckBox() {
-            driver.get("http://localhost:9999");
-            driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Карл Иванов");
-            driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+79657989766");
-            driver.findElement(By.className("button")).click();
-            String text = driver.findElement(By.cssSelector("[data-test-id=agreement].input_invalid .checkbox__text")).getText();
-            assertEquals("Я соглашаюсь с условиями обработки и использования моих персональных данных" +
-                    " и разрешаю сделать запрос в бюро кредитных историй", text.trim());
-        }
+
+    @Test
+    public void shouldInactiveCheckBox() {
+        driver.get("http://localhost:9999");
+        driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Карл Иванов");
+        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+79657989766");
+        driver.findElement(By.className("button")).click();
+        String text = driver.findElement(By.cssSelector("[data-test-id=agreement].input_invalid .checkbox__text")).getText();
+        assertEquals("Я соглашаюсь с условиями обработки и использования моих персональных данных" +
+                " и разрешаю сделать запрос в бюро кредитных историй", text.trim());
     }
+}
 
 
 
